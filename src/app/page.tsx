@@ -1,25 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-
-/*
-  Welcome to the simplegamehosting coding assignment!
-
-  if you got this far great job! 🎉
-  Now it's your turn to shine! 🌟
-  
-  The mock data is fetched from the server and displayed on the page.
-
-  Your task is to create a dynamic card component for each server in the list.
-  - The card should display the server's name, game, players, status, version etc, bonus points for displaying any extra data from the json response.
-  - please use tailwind to style your components, you can use the existing styles in this file as a reference.
-  - You can also use any other libraries you like to help you build the UI.
-  
-  for extra info please read the README.md file in the root of the project.
-*/
+import { ServerData } from "@/types/types";
+import GameServerCard from "./components/GameSeverCard/GameServerCard";
+import Toggle from "./components/Toggle";
 
 export default function Home() {
-  const [serverData, setServerData] = useState(null);
-  // you can update this fetching code if required but it's not necessary for the assignment.
+  const [serverData, setServerData] = useState<ServerData[] | null>(null);
+  const [dark, setDark] = useState<boolean>(false);
+
+  const handleDarkMode = (enabled: boolean) => {
+    setDark(enabled);
+    document.body.classList.toggle("dark");
+  };
+
   useEffect(() => {
     const fetchServerData = async () => {
       try {
@@ -34,20 +27,31 @@ export default function Home() {
     fetchServerData();
   }, []);
 
+  const renderServerCards = () => {
+    if (!serverData || serverData.length === 0) {
+      return <div className="w-fit mx-auto">{"No Servers Available  :("}</div>;
+    }
+    return serverData.map((data) => {
+      const isFirst = data === serverData[0];
+      return <GameServerCard data={data} key={data.id} isFirst={isFirst} />;
+    });
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      {/* main can be deleted and replaced with your own cards */}
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-2xl font-bold">Minecraft Server List</h1>
-        <p className="text-gray-600">
-          Below is the JSON data fetched from <code>/api/mock</code>. Use it to
-          build the UI.
-        </p>
-        <pre className="bg-gray-200 text-gray-800 p-4 rounded-lg w-full overflow-auto max-w-4xl text-sm">
-          {serverData ? JSON.stringify(serverData, null, 2) : "Loading data..."}
-        </pre>
-      </main>
-      {/* main can be deleted and replaced with your own cards */}
+    <div className="m-auto grid items-center justify-items-center h-full p-6 sm:p-10 font-[family-name:var(--font-geist-sans)]">
+      <div className="bg-gray-300 dark:bg-gray-800 p-6 rounded-lg w-fit overflow-auto max-w-4xl text-sm m-auto mb-2">
+        <h1 className="text-2xl font-bold w-fit mx-auto text-gray-800 dark:text-gray-300">
+          Minecraft Server List
+        </h1>
+        <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:justify-items-start md:items-start">
+          {renderServerCards()}
+        </div>
+      </div>
+      <Toggle
+        label={`Switch to ${dark ? "Light Mode" : "Dark Mode"}`}
+        labelPosition="left"
+        onToggle={(enabled) => handleDarkMode(enabled)}
+      />
     </div>
   );
 }

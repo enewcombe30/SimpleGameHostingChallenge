@@ -57,6 +57,17 @@ export const GET = () => {
       region: "North America",
       mods: ["Litematica", "Schematica"],
     },
+    // {
+    //   id: 6,
+    //   name: "Redstone Engineers",
+    //   game: "Minecraft",
+    //   players: "5/25",
+    //   status: "offline",
+    //   version: "1.20",
+    //   type: "Technical",
+    //   region: "North America",
+    //   mods: ["Litematica", "Schematica"],
+    // },
   ];
 
   return NextResponse.json(mockServers);
