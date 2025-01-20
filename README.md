@@ -1,10 +1,10 @@
 # **SimpleGameHosting Frontend Coding Assignment**
 
-Welcome to the SimpleGameHosting coding assignment! 🎉 We’re excited to see your skills in action. This assignment is designed to assess your ability to create clean, reusable, and well-styled React components while working with Tailwind CSS and JSON data.
+This project is a revised version of the original coding challenge provided by SimpleGameHosting. It includes various enhancements and improvements to show case skills and provide better functionality, design, and maintainability.
 
 ---
 
-## **Overview**
+## **Challenge Overview**
 
 Your task is to build a dynamic card-based UI to display server details fetched from an API endpoint. You’ll use React, Tailwind CSS, and optionally other libraries, to create an elegant, responsive layout.
 
@@ -24,10 +24,10 @@ The provided code already fetches server data from a mock API and displays it as
 
 1. Clone the repository:
    ```
-   git clone https://github.com/simplegamehosting/frontend-assignment.git
+   git clone https://github.com/enewcombe30/simple-game-hosting-challenge.git
    ```
    ```
-   cd frontend-assignment
+   cd simple-game-hosting-challenge
    ```
 2. Install dependencies:
    ```
@@ -39,87 +39,56 @@ The provided code already fetches server data from a mock API and displays it as
    ```
 4. Open your browser at http://localhost:3000 to view the project.
 
-# **Your Task**
+---
 
-1. **Build a Reusable Card Component**:
+## Features
 
-   - Display the following details about each server:
+- **Dynamic Server Cards**: Each server in the list is displayed on a card that updates automatically to show key details like the server’s name, game, player count, status, and version.
+- **Dark Mode**: A toggle lets users easily switch between light and dark themes, optimising the experience depending on the lighting around them.
+- **Separation of Concerns**: The server card logic is managed by a custom hook (`useServerCard`), helping to keep the components clean and modular.
+- **Better Responsiveness**: A grid layout ensures server cards adjust gracefully to different screen sizes, improving the overall design.
 
-     - **Server Name**
-     - **Game Name**
-     - **Player Count**
-     - **Server Status** (e.g., "Online"/"Offline")
-     - **Version**
+---
 
-   - Bonus points for displaying any additional data creatively.
+## Updates and Enhancements
 
-2. **Use Tailwind CSS**:
+### Revised `page.tsx`
+- Implemented state management for dark mode using `useState` and created the `handleDarkMode` function to toggle between light and dark themes by adding or removing the `dark` class from the `body`.
+- Added a `Toggle` component for switching themes.
+- Used `renderServerCards` to loop through the server data and generate individual cards dynamically.
 
-   - Style the card components using Tailwind CSS. Feel free to reference the existing styles in the codebase.
+### ServerCard Component
+- Displays detailed information about each server, including its name, game, players, and current status.
+- Features a button to change the server's status between `online` and `offline`.
+- Tailwind-based styling has been improved to dynamically adjust for both light and dark themes.
 
-3. **Responsiveness**:
+### Custom Hook: `useServerCard`
+- This hook manages the logic for tracking the server’s online/offline status.
+- Keeps the UI and business logic separate for cleaner, more maintainable code.
 
-   - Ensure the cards look great on mobile, tablet, and desktop.
+### Custom Hook: `useTextFormatting`
+- Provides utility functions for formatting text throughout the app:
+  - Capitalises the first letter of lowercase strings received from the API.
+  - Adds commas to separate items in arrays when rendered inline.
 
-4. **Optional Extras**:
+### Toggle Component
+- A reusable toggle switch for managing dark mode:
+  - Accepts props like `label`, `labelPosition`, and `onToggle` to customise the toggle.
+  - Visual state updates dynamically when toggled.
 
-   - Add a **light/dark mode toggle**.
-   - **Organize your component into a separated components directory**.
+### Responsive Grid Layout
+- A new responsive grid layout for server cards improves the user experience on various devices, making sure the layout adjusts smoothly to screen size changes.
 
-5. **Push Your Work**:
-   - When complete, push your work to a **public GitHub repository** and share the link with us.
-
-# **Evaluation Criteria**
-
-We’ll evaluate your submission based on:
-
-1. **Functionality**:
-
-   - Does the card display all server data correctly?
-   - Are the interactive features (if added) working as expected?
-
-2. **Code Quality**:
-
-   - Is the code modular, reusable, and clean?
-   - Does it follow React and Tailwind best practices?
-
-3. **Design and Styling**:
-
-   - Is the design modern, responsive, and visually appealing?
-
-4. **Extra Features**:
-   - Have you gone above and beyond to add optional extras or improve the UX?
-
-# **Submission** 📤
-
-1. **Complete the assignment** and thoroughly test your work to ensure everything functions as expected.
-2. **Push your code** to a **public GitHub repository** for us to review.
-3. **Share the repository link** with us by replying to the email that sent you the original assignment link.
-
-We’re looking forward to seeing what you build! 💻✨
-
-# **FAQs**
-
-### 🤔 Can I use third-party UI libraries?
-
-Yes, you can use any libraries (e.g., `react-icons`, `shadCN`) to help you build the UI. Feel free to leverage tools that make your work efficient and stylish! ✨
-
-### 🤖 Can I use AI tools like ChatGPT or GitHub Copilot?
-
-Yes, as long as you fully understand the code that’s being generated. It will be obvious if you don’t, so make sure you review and adapt the code where necessary. Be smart about using AI to assist your creativity, not replace it! 🚀
-
-### ⏳ Is there a time limit for this assignment?
-
-We expect you to complete this task within **7 days** of receiving it. Don’t worry—take your time to showcase your best work! 🗓️
-
-### ❓ Can I ask questions if something is unclear?
-
-Absolutely! 🙌 Feel free to reach out with any questions about the assignment. We’re here to help and want to see you succeed. 💬
-
-# **Tips for Success** 🏆
-
-- **Keep It Simple**: 🎯 Focus on meeting the core requirements first. Then, if you have time, work on the optional extras to really shine.
-- **Write Readable Code**: 🧹 Use comments, consistent formatting, and meaningful variable/component names.
-- **Test Your Work**: ✅ Ensure your components work correctly on all screen sizes. A smooth, responsive design will wow us!
-- **Show Creativity**: 🌟 Use your skills and creativity to make the UI stand out. Bonus points for thoughtful extras like animations or clever use of data.
-- **Have Fun**: 🎉 Enjoy the process, and don’t stress! This is your chance to show off what you can do.
+### TypeScript Enhancements
+- Defined the `ServerData` type in a new `types.ts` file to clearly outline the structure of server data:
+  ```typescript
+  export type ServerData = {
+    id: number;
+    name: string;
+    game: string;
+    players: string;
+    status: string;
+    version: string;
+    region: string;
+    mods: string[];
+  };
