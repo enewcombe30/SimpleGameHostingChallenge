@@ -1,5 +1,6 @@
 import { ServerData } from "@/types/types";
 import useGameServerCard from "./useGameServerCard";
+import { capitaliseFirstChar, renderComma } from "../hooks/useTextFormatting";
 
 interface props {
   data: ServerData;
@@ -11,30 +12,58 @@ export default function GameServerCard({ data, isFirst }: props) {
     name,
     game,
     players,
+    region,
+    version,
+    mods,
     isOnline,
-    capitaliseFirstChar,
     handleServerStatus,
     serverStatus,
   } = useGameServerCard(data);
 
+  const renderMods = () => {
+    return mods.map((mod, index) => (
+      <span key={index}>
+        {mod}
+        {renderComma(index, mods.length)}
+      </span>
+    ));
+  };
+
   return (
     <div
-      className={`bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-md rounded-lg p-2 w-full h-fit max-w-[24rem] border border-gray-400 dark:border-gray-600 flex
+      className={`bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-md rounded-lg p-1.5 w-full h-fit max-w-[24rem] border border-gray-400 dark:border-gray-600 flex
         ${isFirst && "mt-4"}
        `}
     >
-      <div>
-        <h2 className="w-fit text-xl font-bold mb-2">{name}</h2>
+      <div className="h-fit w-fit">
+        <h2 className="w-fit lg:text-xl md:text-[1.2rem] sm:text-lg xs:text-[1rem] font-bold mb-2">
+          {name}
+        </h2>
         <div className="text-gray-700 dark:text-gray-300">
-          <b>Game:</b> {game}
-        </div>
-        <div className="text-gray-700 dark:text-gray-300">
-          <b>Players:</b> {players}
+          <div>
+            <b>Game:</b> {game}
+          </div>
+          <div>
+            <b>Region:</b> {region}
+          </div>
+          <div>
+            <b>Players:</b> {players}
+          </div>
+          <div>
+            <b>Version:</b> {version}
+          </div>
+          <div className="flex relative">
+            <b>Mods:</b>
+            <span className="ml-1 min-w-[13rem] absolute left-[2.2rem]">
+              {" "}
+              {renderMods()}
+            </span>
+          </div>
         </div>
       </div>
-      <div className="ml-auto pl-2">
+      <div className="ml-auto w-fit h-fit">
         <h2
-          className={`w-fit mr-0.5 text-xl font-bold mb-2 ${
+          className={`w-fit md:text-xl sm:text-lg xs:text-[1rem] font-bold mb-2 mx-auto ${
             isOnline ? "text-green-600" : "text-red-600"
           }`}
         >
@@ -42,11 +71,13 @@ export default function GameServerCard({ data, isFirst }: props) {
         </h2>
         <button
           onClick={() => handleServerStatus(serverStatus)}
-          className={`cursor-pointer text-xs border-2 p-1 rounded-md min-w-20 ${
-            isOnline ? "border-red-600" : "border-green-600"
+          className={`cursor-pointer md:text-[0.75rem] sm:text-xs xs:text-[0.625rem] text-md border-2 p-1 rounded-md min-w-[5.7rem] text-gray-200 ${
+            isOnline
+              ? "bg-red-600 border-red-600"
+              : "bg-green-600 border-green-600"
           }`}
         >
-          {serverStatus === "online" ? "Stop Server" : "Start Server"}
+          <b>{serverStatus === "online" ? "Stop Server" : "Start Server"}</b>
         </button>
       </div>
     </div>
