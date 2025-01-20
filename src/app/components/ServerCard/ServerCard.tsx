@@ -1,5 +1,5 @@
 import { ServerData } from "@/types/types";
-import useGameServerCard from "./useGameServerCard";
+import useServerCard from "./useServerCard";
 import { capitaliseFirstChar, renderComma } from "../hooks/useTextFormatting";
 
 interface props {
@@ -7,7 +7,7 @@ interface props {
   isFirst: boolean;
 }
 
-export default function GameServerCard({ data, isFirst }: props) {
+export default function ServerCard({ data, isFirst }: props) {
   const {
     name,
     game,
@@ -18,7 +18,7 @@ export default function GameServerCard({ data, isFirst }: props) {
     isOnline,
     handleServerStatus,
     serverStatus,
-  } = useGameServerCard(data);
+  } = useServerCard(data);
 
   const renderMods = () => {
     return mods.map((mod, index) => (

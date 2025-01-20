@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ServerData } from "@/types/types";
-import GameServerCard from "./components/GameSeverCard/GameServerCard";
+import ServerCard from "./components/ServerCard/ServerCard";
 import Toggle from "./components/Toggle";
 
 export default function Home() {
@@ -43,7 +43,7 @@ export default function Home() {
     }
     return serverData.map((data) => {
       const isFirst = data === serverData[0];
-      return <GameServerCard data={data} key={data.id} isFirst={isFirst} />;
+      return <ServerCard data={data} key={data.id} isFirst={isFirst} />;
     });
   };
 
